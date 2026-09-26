@@ -391,6 +391,12 @@ get_value(radio_param_t param, radio_value_t *value)
   case RADIO_PARAM_CHANNEL:
     *value = simRadioChannel;
     return RADIO_RESULT_OK;
+  case RADIO_PARAM_TXPOWER:
+    /* The cooja radio has no dBm scale: simPower is the unitless 1..100
+     * indicator the medium scales the transmitting range with. Reported
+     * as-is rather than converted, so a read-back matches what was set. */
+    *value = simPower;
+    return RADIO_RESULT_OK;
   case RADIO_CONST_CHANNEL_MIN:
     *value = MIN_CHANNEL;
     return RADIO_RESULT_OK;
@@ -440,6 +446,15 @@ set_value(radio_param_t param, radio_value_t value)
      * Or for wide-band sniffing.
      * */
     radio_set_channel(value);
+    return RADIO_RESULT_OK;
+  case RADIO_PARAM_TXPOWER:
+    /* simPower is 1..100. The upper bound is the same one
+     * ContikiRadio.getOutputPowerIndicatorMax() reports, so the value the
+     * firmware writes here is the value the medium reads back there. */
+    if(value < 1 || value > 100) {
+      return RADIO_RESULT_INVALID_VALUE;
+    }
+    radio_set_txpower((unsigned char)value);
     return RADIO_RESULT_OK;
   default:
     return RADIO_RESULT_NOT_SUPPORTED;
