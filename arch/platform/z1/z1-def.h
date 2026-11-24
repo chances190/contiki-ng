@@ -283,6 +283,6 @@ for SFD timestamping */
 #endif /* I2C_CONF_RX_WITH_INTERRUPT */
 
 /* Platform-specific define for the end of the stack region */
-#define STACK_CONF_ORIGIN     ((void *)0x3100)
+#define STACK_CONF_ORIGIN     ((void *)0x4dfe)
 
 #endif /* PLATFORM_CONF_H_ */
