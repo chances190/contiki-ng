@@ -131,6 +131,17 @@
 #endif /* RPL_CONF_WITH_DAO_ACK */
 
 /*
+ * RPL snapshot API. When enabled, rpl-snapshot.h exposes a fixed-layout copy
+ * of the DAG, the preferred parent, and the neighbor table. The module compiles
+ * to nothing when disabled.
+ */
+#ifdef RPL_CONF_WITH_SNAPSHOT
+#define RPL_WITH_SNAPSHOT RPL_CONF_WITH_SNAPSHOT
+#else
+#define RPL_WITH_SNAPSHOT 0
+#endif /* RPL_CONF_WITH_SNAPSHOT */
+
+/*
  * Setting the RPL_TRICKLE_REFRESH_DAO_ROUTES will make the RPL root
  * increase the DTSN (Destination Advertisement Trigger Sequence Number)
  * from the DIO trickle timer. If set to 4, DTSN will be increased every 4th
